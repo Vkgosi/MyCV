@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Victor Simane Kgosi – SQL & C# Developer</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --primary: #0f766e;
+      --primary-dark: #084f4a;
+      --accent: #14b8a6;
+      --muted: #64748b;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --radius: 16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --text: #e2e8f0;
+        --primary: #2dd4bf;
+        --primary-dark: #0f766e;
+        --accent: #5eead4;
+        --muted: #94a3b8;
+        --card: #1e293b;
+        --border: #334155;
+      }
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+
+    /* Full-width Hero */
+    .hero {
+      position: relative;
+      height: 90vh;
+      min-height: 700px;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 70%, rgba(20,184,166,0.25) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      padding: 2rem;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      margin-bottom: 1rem;
+      letter-spacing: -2px;
+      line-height: 0.95;
+    }
+
+    .hero .tagline {
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      opacity: 0.95;
+      margin-bottom: 2rem;
+    }
+
+    .profile-pic {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 8px solid rgba(255,255,255,0.25);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      margin: 0 auto 2rem;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .profile-pic:hover { transform: scale(1.08) rotate(3deg); }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(15,118,110,0.9);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      padding: 1.2rem 0;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 0 1.5rem;
+      transition: 0.3s;
+      letter-spacing: 0.5px;
+    }
+
+    nav a:hover { color: var(--accent); transform: translateY(-2px); }
+
+    /* Content sections – full width */
+    main > section {
+      width: 100%;
+      padding: 8rem 5% 6rem;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+    }
+
+    section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    section h2::after {
+      content: '';
+      width: 120px;
+      height: 4px;
+      background: var(--accent);
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .bio-text {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1.25rem;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .skills-grid, .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+      margin-top: 3rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .card h3 { color: var(--primary); margin-bottom: 1.2rem; }
+
+    .experience-item {
+      margin-bottom: 3.5rem;
+      position: relative;
+      padding-left: 2.5rem;
+    }
+
+    .experience-item::before {
+      content: "";
+      position: absolute;
+      left: 0.8rem;
+      top: 0.5rem;
+      bottom: -3rem;
+      width: 3px;
+      background: linear-gradient(var(--accent), transparent);
+    }
+
+    .experience-item:last-child::before { bottom: 0; }
+
+    .experience-item strong {
+      font-size: 1.4rem;
+      display: block;
+    }
+
+    .year {
+      color: var(--muted);
+      font-weight: 500;
+      margin: 0.3rem 0 1rem;
+      display: block;
+    }
+
+    .contact {
+      text-align: center;
+    }
+
+    .contact p {
+      font-size: 1.3rem;
+      margin: 1.2rem 0;
+    }
+
+    .contact a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .contact a:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      padding: 4rem 1rem 2rem;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero { min-height: 80vh; }
+      nav a { margin: 0 1rem; font-size: 0.95rem; }
+      section { padding: 5rem 4% 4rem; }
+      section h2 { font-size: 2.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#hero">Home</a>
+    <a href="#bio">Bio</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <header id="hero" class="hero">
+    <div class="hero-content">
+      <img src="IMG_20251030_163119.jpg" alt="Victor Simane Kgosi" class="profile-pic">
+      <h1>Victor Simane Kgosi</h1>
+      <p class="tagline">SQL • C# • Data Engineering & Analysis Professional</p>
+      <p style="font-size:1.3rem; max-width:700px; margin:0 auto; opacity:0.9;">
+        Building reliable data pipelines and turning raw information into actionable insights — with over 15 years in credit bureau systems and team leadership.
+      </p>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="bio">
+      <div class="container">
+        <h2>Who I Am</h2>
+        <p class="bio-text">
+          With deep roots in SQL-driven data processing and analysis, I’ve spent years ensuring data accuracy, building loaders, and leading teams in high-stakes environments. Today, I'm expanding into full-stack development to create end-to-end solutions that make a real impact.
+        </p>
+        <p class="bio-text" style="margin-top:2rem;">
+          Passionate about clean code, continuous learning, and collaborative problem-solving — always ready for the next challenge.
+        </p>
+      </div>
+    </section>
+
+    <section id="skills" style="background: linear-gradient(to bottom, var(--card), rgba(20,184,166,0.05));">
+      <div class="container">
+        <h2>Core Competencies</h2>
+        <div class="skills-grid">
+          <div class="card">
+            <h3>Technical</h3>
+            <ul style="list-style:none; padding-left:1.8rem;">
+              <li>→ Advanced SQL & Database Design</li>
+              <li>→ SQL Server / MySQL / SSIS</li>
+              <li>→ C# (data rules & validation)</li>
+              <li>→ HTML/CSS/JavaScript fundamentals</li>
+              <li>→ Linux/Windows system administration</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Professional</h3>
+            <ul style="list-style:none; padding-left:1.8rem;">
+              <li>→ Team Leadership & Mentoring</li>
+              <li>→ SLA Delivery & Quality Assurance</li>
+              <li>→ Problem Diagnosis & Resolution</li>
+              <li>→ Process Optimization</li>
+              <li>→ Clear Technical Communication</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="container">
+        <h2>Education</h2>
+        <div class="edu-grid">
+          <div class="card">
+            <strong>Tshwane University of Technology – 2002</strong>
+            <div class="year">National Certificate in Web Development</div>
+          </div>
+          <div class="card">
+            <strong>University of Pretoria – 1999</strong>
+            <div class="year">BSc Computer Science (2nd year level)</div>
+          </div>
+          <div class="card">
+            <strong>University of Pretoria – 1996</strong>
+            <div class="year">BSc Extended Preparatory Course</div>
+          </div>
+          <div class="card">
+            <strong>Micha-Kgasi High School – 1994</strong>
+            <div class="year">Matric (Mathematics, Sciences, Languages)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" style="background: var(--bg);">
+      <div class="container">
+        <h2>Professional Journey</h2>
+        <div style="max-width:1000px; margin:0 auto;">
+          <div class="experience-item">
+            <strong>Xpert Decision Systems (XDS)</strong> • <a href="https://www.xds.co.za">xds.co.za</a>
+            <span class="year">2018 – Present • Software Developer</span>
+            <ul>
+              <li>SQL analysis, stats & reporting</li>
+              <li>Database creation & maintenance</li>
+              <li>SSIS data loader development</li>
+              <li>C# validation rule implementation</li>
+            </ul>
+          </div>
+
+          <div class="experience-item">
+            <strong>Xpert Decision Systems (XDS)</strong> • <a href="https://www.xds.co.za">xds.co.za</a>
+            <span class="year">2008 – 2016 • Data Administrator / Team Leader</span>
+            <ul>
+              <li>Led data processing division & met SLAs</li>
+              <li>Quality assurance & performance reviews</li>
+              <li>SQL-based credit data validation</li>
+              <li>Backup, restores & error trend analysis</li>
+            </ul>
+          </div>
+
+          <div class="experience-item">
+            <strong>Hire All Equipment Hire</strong> • <a href="https://www.hireall.co.za">hireall.co.za</a>
+            <span class="year">2007 – 2008 • Network / Systems Administrator</span>
+            <ul><li>Linux mail & accounting servers</li><li>Desktop & printer support</li></ul>
+          </div>
+
+          <div class="experience-item">
+            <strong>Obsidian Switch</strong> • <a href="https://www.obsidian.co.za">obsidian.co.za</a>
+            <span class="year">2006 – 2007 • Support Technician</span>
+            <ul><li>Server deployments & ISP support</li><li>Remote/on-site troubleshooting</li></ul>
+          </div>
+
+          <div class="experience-item">
+            <strong>Cirrus Technologies</strong> • <a href="https://www.cirrus.co.za">cirrus.co.za</a>
+            <span class="year">2001 – 2006 • Support Technician</span>
+            <ul><li>Software testing & in-house development</li><li>Hardware maintenance</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color:white;">
+      <div class="container">
+        <h2 style="color:white;">Let's Connect</h2>
+        <p><strong>Simane Victor Kgosi</strong></p>
+        <p>+27 76 443 4798</p>
+        <p><a href="mailto:vkgosi@xds.co.za" style="color:#a7f3d0;">vkgosi@xds.co.za</a></p>
+        <p><a href="https://www.linkedin.com/in/victor-kgosi-b72025150/" target="_blank" style="color:#a7f3d0;">LinkedIn</a></p>
+        <p><a href="https://github.com/Vkgosi" target="_blank" style="color:#a7f3d0;">GitHub</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Victor Simane Kgosi • Built with passion for data & code</p>
+  </footer>
+
+</body>
+</html>
